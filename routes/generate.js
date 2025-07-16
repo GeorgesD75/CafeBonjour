@@ -1,9 +1,14 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const { createGroups } = require('../scripts/pairing');
+import express from 'express';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { createGroups } from '../scripts/pairing.js';
 
 const router = express.Router();
+
+// Pour remplacer __dirname dans un module ES
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 router.get('/', (req, res) => {
   const usersPath = path.join(__dirname, '..', 'users.json');
@@ -14,4 +19,4 @@ router.get('/', (req, res) => {
   res.json(groupes);
 });
 
-module.exports = router;
+export default router;

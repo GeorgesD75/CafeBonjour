@@ -1,6 +1,5 @@
 import 'dotenv/config';
 import fetch from 'node-fetch';
-import { createGroups } from './pairing.js';
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
@@ -52,7 +51,6 @@ async function getUsers(token) {
 
   const data = await res.json();
 
-  // On filtre les utilisateurs sans nom, et on nettoie
   const users = data.value
     .map(user => user.displayName?.trim())
     .filter(Boolean);
@@ -60,11 +58,8 @@ async function getUsers(token) {
   return users;
 }
 
-(async () => {
+export async function getUsersFromTeams() {
   const token = await getToken();
   const users = await getUsers(token);
-
-  const groupes = createGroups(users);
-
-  console.log(JSON.stringify(groupes, null, 2));
-})();
+  return users;
+}
