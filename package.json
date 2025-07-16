@@ -4,12 +4,15 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "pairing": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["teams", "pairing", "coffee", "collaboration"],
+  "author": "GeorgesD75",
   "license": "ISC",
-  "description": "",
+  "description": "Application de pairing automatique pour Microsoft Teams",
   "dependencies": {
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
