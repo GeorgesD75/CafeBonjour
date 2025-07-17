@@ -1,7 +1,14 @@
+name: Planification Pairing CaféBonjour
+
+on:
+  schedule:
+    - cron: '0 8 * * 1' # Tous les lundis à 8h UTC = 10h à Paris
+  workflow_dispatch: # ✅ Permet de lancer manuellement
+
 jobs:
   pairing_job:
     runs-on: ubuntu-latest
-    environment: AZUREAD  # ⬅️ C’est ça qui manquait
+    environment: AZUREAD  # ✅ Indique d'utiliser les Environment Secrets
     steps:
       - name: 🔄 Récupérer le repo
         uses: actions/checkout@v4
