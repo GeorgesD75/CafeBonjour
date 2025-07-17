@@ -1,7 +1,7 @@
 jobs:
   pairing_job:
     runs-on: ubuntu-latest
-    environment: AZUREAD  # ⬅️ C’est ça qui manquait
+    environment: AZUREAD 
     steps:
       - name: 🔄 Récupérer le repo
         uses: actions/checkout@v4
