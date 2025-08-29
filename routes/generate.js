@@ -2,7 +2,7 @@
 import express from 'express';
 import { createGroups } from '../scripts/pairing.js';
 import { getAllUsers } from '../auth/graph.js';
-import { getAccessToken } from '../auth/msal.js'; // Assure-toi que ce chemin est correct
+import { getAccessToken } from '../auth/msalConfig.js';
 import { sendMessages } from '../scripts/sendMessages.js';
 
 const router = express.Router();
