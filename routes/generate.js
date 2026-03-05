@@ -15,22 +15,24 @@ router.get('/', async (req, res) => {
   }
 
   try {
-    // Étape 1 : récupération des utilisateurs
-    const users = await getAllUsers(token);
+    // Étape 1 : récupération des utilisateurs (Aperçu)
+    // On utilise le jeton Application pour vérifier si le consentement Admin est effectif !
+    const tenantId = req.session.account?.tenantId || process.env.TENANT_ID;
+    const appToken = await getAccessToken(tenantId);
+
+    const users = await getAllUsers(appToken);
     if (!users || users.length === 0) {
       return res.status(404).json({ error: 'Aucun utilisateur trouvé' });
     }
 
-    // Étape 2 : génération des groupes
+    // Étape 2 : génération des groupes (Aperçu)
     const groupes = createGroups(users);
 
-    // Étape 3 : acquisition d’un token valide pour envoyer les messages
-    const accessToken = await getAccessToken(); // Token d'application
+    // Suppression de l'étape de sendMessages() : C'est la page web qui affiche l'aperçu,
+    // on ne veut absolument PAS spammer l'entreprise entière lors du test visuel de l'admin.
+    // L'envoi réel est strictement réservé au planificateur CRON (scheduler.js).
 
-    // Étape 4 : envoi des messages dans Teams
-    await sendMessages(groupes, accessToken);
-
-    // Résultat renvoyé à l’utilisateur
+    // Résultat renvoyé à l’interface pour affichage visuel
     res.json({
       success: true,
       totalUsers: users.length,
@@ -38,10 +40,10 @@ router.get('/', async (req, res) => {
       groups: groupes
     });
   } catch (error) {
-    console.error('❌ Erreur lors de la génération des groupes ou de l’envoi de messages :', error);
-    res.status(500).json({ 
-      error: 'Erreur lors de la génération ou de l’envoi',
-      details: error.message 
+    console.error('❌ Erreur lors de la génération de l\'aperçu des groupes :', error);
+    res.status(500).json({
+      error: 'Erreur lors de la génération',
+      details: error.message
     });
   }
 });

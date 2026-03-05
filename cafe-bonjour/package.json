@@ -22,7 +22,9 @@
   },
   "dependencies": {
     "@fluentui/react-components": "^9.67.0",
+    "i18next": "^25.8.14",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-i18next": "^16.5.5"
   }
 }

@@ -1,0 +1,49 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.16",
+    "version": "1.0.0",
+    "id": "11111111-1111-1111-1111-111111111111",
+    "packageName": "com.cafebonjour.app",
+    "developer": {
+        "name": "GeorgesD75",
+        "websiteUrl": "https://cafebonjour.com",
+        "privacyUrl": "https://cafebonjour.com/privacy",
+        "termsOfUseUrl": "https://cafebonjour.com/terms"
+    },
+    "icons": {
+        "color": "color.png",
+        "outline": "outline.png"
+    },
+    "name": {
+        "short": "Café Bonjour",
+        "full": "Café Bonjour - Pairing informel"
+    },
+    "description": {
+        "short": "Créer du lien social dans vos équipes Teams via des cafés aléatoires.",
+        "full": "Café Bonjour organise automatiquement des pauses café (pairing) entre collègues chaque semaine pour favoriser la cohésion d'équipe et les échanges informels."
+    },
+    "accentColor": "#6264A7",
+    "configurableTabs": [],
+    "staticTabs": [
+        {
+            "entityId": "cafebonjour_dashboard",
+            "name": "Dashboard",
+            "contentUrl": "https://votre-domaine.com",
+            "websiteUrl": "https://votre-domaine.com",
+            "scopes": [
+                "personal"
+            ]
+        }
+    ],
+    "permissions": [
+        "identity",
+        "messageTeamMembers"
+    ],
+    "validDomains": [
+        "votre-domaine.com"
+    ],
+    "webApplicationInfo": {
+        "id": "11111111-1111-1111-1111-111111111111",
+        "resource": "api://votre-domaine.com/11111111-1111-1111-1111-111111111111"
+    }
+}

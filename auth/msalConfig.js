@@ -1,28 +1,37 @@
 // auth/msalConfig.js
-import 'dotenv/config';
-import { ConfidentialClientApplication } from '@azure/msal-node';
+import * as msal from '@azure/msal-node';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const msalConfig = {
   auth: {
     clientId: process.env.CLIENT_ID,
-    authority: `https://login.microsoftonline.com/${process.env.TENANT_ID}`,
+    authority: `https://login.microsoftonline.com/${process.env.TENANT_ID || 'common'}`,
     clientSecret: process.env.CLIENT_SECRET,
   },
+  system: {
+    loggerOptions: {
+      loggerCallback(loglevel, message, containsPii) {
+        // console.log(message);
+      },
+      piiLoggingEnabled: false,
+      logLevel: msal.LogLevel.Info,
+    }
+  }
 };
 
-const cca = new ConfidentialClientApplication(msalConfig);
+const cca = new msal.ConfidentialClientApplication(msalConfig);
 
-/**
- * Récupère un token d'application pour MS Graph
- */
-export async function getAccessToken() {
+export async function getAccessToken(tenantId = process.env.TENANT_ID || 'common') {
+  const tokenRequest = {
+    scopes: ['https://graph.microsoft.com/.default'],
+    authority: `https://login.microsoftonline.com/${tenantId}`
+  };
   try {
-    const result = await cca.acquireTokenByClientCredential({
-      scopes: ['https://graph.microsoft.com/.default'],
-    });
-    return result.accessToken;
+    const response = await cca.acquireTokenByClientCredential(tokenRequest);
+    return response.accessToken;
   } catch (error) {
-    console.error('❌ Erreur lors de la récupération du token MSAL :', error);
+    console.error("Erreur d'acquisition de token d'application :", error);
     throw error;
   }
 }
