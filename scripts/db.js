@@ -1,40 +1,87 @@
 import { JsonDB, Config } from 'node-json-db';
+import { MongoClient } from 'mongodb';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Initialiser la base de données JSON dans le dossier courant
+// Initialiser la base de données JSON dans le dossier courant (Mode Local Fallback)
 const dbPath = path.join(__dirname, 'cafebonjour_db');
-const db = new JsonDB(new Config(dbPath, true, false, '/'));
+const localDb = new JsonDB(new Config(dbPath, true, false, '/'));
+
+// Instance MongoDB
+let mongoClient = null;
+let mongoCollection = null;
+
+async function getMongoCollection() {
+    if (!process.env.MONGODB_URI) return null;
+
+    if (!mongoClient) {
+        mongoClient = new MongoClient(process.env.MONGODB_URI);
+        await mongoClient.connect();
+        const db = mongoClient.db('cafebonjour');
+        mongoCollection = db.collection('settings');
+        console.log("🍃 Connecté à MongoDB Cloud (Atlas) !");
+    }
+    return mongoCollection;
+}
 
 export async function saveSettings(tenantId, settings) {
     if (!tenantId) throw new Error("tenantId est requis");
-    // On sauvegarde sous le chemin /tenants/{tenantId}/settings
-    await db.push(`/tenants/${tenantId}/settings`, settings);
+
+    const collection = await getMongoCollection();
+    if (collection) {
+        // Mode Production Cloud (MongoDB)
+        await collection.updateOne(
+            { tenantId },
+            { $set: { settings } },
+            { upsert: true }
+        );
+    } else {
+        // Mode Développement (Fichier Local)
+        await localDb.push(`/tenants/${tenantId}/settings`, settings);
+    }
 }
 
 export async function getSettings(tenantId) {
     if (!tenantId) throw new Error("tenantId est requis");
+
+    const defaultSettings = {
+        selectedDay: 'monday',
+        time: '09:00',
+        channelName: ' café-bonjour',
+        message: 'Bonjour {groupe} 👋\nBienvenue à votre café du jour dans #{canal}'
+    };
+
     try {
-        return await db.getData(`/tenants/${tenantId}/settings`);
+        const collection = await getMongoCollection();
+        if (collection) {
+            // Mode Production Cloud
+            const doc = await collection.findOne({ tenantId });
+            return doc?.settings || defaultSettings;
+        } else {
+            // Mode Local
+            return await localDb.getData(`/tenants/${tenantId}/settings`);
+        }
     } catch (error) {
-        // Retourne la configuration par défaut si rien n'est sauvegardé pour ce locataire
-        return {
-            selectedDay: 'monday',
-            time: '09:00',
-            channelName: '☕ café-bonjour',
-            message: 'Bonjour {groupe} 👋\nBienvenue à votre café du jour dans #{canal} ☕'
-        };
+        return defaultSettings;
     }
 }
 
 export async function getAllTenants() {
     try {
-        const tenantsData = await db.getData('/tenants');
-        return Object.keys(tenantsData); // Retourne un tableau des IDs ["tenant_A", "tenant_B"]
+        const collection = await getMongoCollection();
+        if (collection) {
+            // Mode Production Cloud
+            const docs = await collection.find({}, { projection: { tenantId: 1 } }).toArray();
+            return docs.map(d => d.tenantId);
+        } else {
+            // Mode Local
+            const tenantsData = await localDb.getData('/tenants');
+            return Object.keys(tenantsData);
+        }
     } catch (error) {
-        return []; // Aucun locataire configuré
+        return [];
     }
 }
