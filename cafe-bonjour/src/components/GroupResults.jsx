@@ -39,7 +39,7 @@ const useStyles = makeStyles({
     }
 });
 
-const GroupResults = ({ resultData, messageTemplate, channelName }) => {
+const GroupResults = ({ resultData, messageTemplate, channelName, isInTeams, time = '09:00' }) => {
     const styles = useStyles();
     const titleRef = useRef(null);
     const { t } = useTranslation();
@@ -49,14 +49,12 @@ const GroupResults = ({ resultData, messageTemplate, channelName }) => {
         const groupNames = members.map(m => m.displayName).join(', ');
         return messageTemplate
             .replaceAll('{groupe}', groupNames)
-            .replaceAll('{canal}', channelName || t('convoTitlePlaceholder'));
+            .replaceAll('{conversation}', channelName || t('convoTitlePlaceholder'));
     };
 
     useEffect(() => {
         if (resultData && resultData.groups && titleRef.current) {
-            setTimeout(() => {
-                titleRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 300);
+            titleRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }, [resultData]);
 
@@ -75,28 +73,38 @@ const GroupResults = ({ resultData, messageTemplate, channelName }) => {
                 const members = [group.user1, group.user2, group.user3].filter(Boolean);
 
                 return (
-                    <Card key={index} className={styles.groupCard}>
+                    <Card key={index} className={styles.groupCard} style={{ backgroundColor: isInTeams ? tokens.colorNeutralBackground1 : 'rgba(255, 255, 255, 0.85)', backdropFilter: isInTeams ? 'none' : 'blur(20px)', boxShadow: '0 8px 32px rgba(31, 38, 135, 0.05)' }}>
                         <CardHeader
                             header={<Text weight="semibold">{t('convoPrefix')} {group.nom}</Text>}
                         />
                         <div className={styles.membersContainer}>
                             {members.map((user, i) => (
                                 <div key={i} className={styles.memberItem}>
-                                    <Avatar name={user.displayName} color="colorful" />
+                                    <Avatar name={user.displayName} color="colorful" image={user.profilePhoto ? { src: user.profilePhoto } : undefined} />
                                     <Text>{user.displayName}</Text>
                                 </div>
                             ))}
                         </div>
-                        <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#ffffff', border: `1px solid ${tokens.colorNeutralStroke1}`, borderRadius: tokens.borderRadiusMedium, display: 'flex', gap: '1rem' }}>
-                            <Avatar name="Café Bonjour" color="brand" />
+
+                        {/* Simulation Vue Chat Teams */}
+                        <div style={{ marginTop: '1.5rem', padding: '1rem', border: `1px dashed ${tokens.colorNeutralStroke1}`, borderRadius: tokens.borderRadiusMedium, backgroundColor: isInTeams ? 'transparent' : 'rgba(255,255,255,0.4)', display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                            <Avatar name="Café Bonjour" color="brand" size={36} />
                             <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '8px' }}>
-                                    <Text weight="bold">Café Bonjour</Text>
-                                    <Text size={200} style={{ color: tokens.colorNeutralForeground3 }}>{t('today')}, 09:00</Text>
+                                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '4px' }}>
+                                    <Text weight="semibold">Café Bonjour</Text>
+                                    <Text size={200} style={{ color: tokens.colorNeutralForeground3 }}>{t('today')} {time}</Text>
                                 </div>
-                                <Text style={{ whiteSpace: 'pre-wrap', lineHeight: '1.5' }}>
-                                    {getGroupMessage(members)}
-                                </Text>
+                                <div style={{
+                                    backgroundColor: isInTeams ? tokens.colorNeutralBackground2 : '#ffffff',
+                                    padding: '12px 16px',
+                                    borderRadius: '0 8px 8px 8px',
+                                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                                    display: 'inline-block'
+                                }}>
+                                    <Text style={{ whiteSpace: 'pre-wrap', lineHeight: '1.5', margin: 0 }}>
+                                        {getGroupMessage(members)}
+                                    </Text>
+                                </div>
                             </div>
                         </div>
                     </Card>
@@ -105,7 +113,7 @@ const GroupResults = ({ resultData, messageTemplate, channelName }) => {
 
             {resultData.totalGroups > 3 && (
                 <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-                    <Text italic color="neutralForeground3">
+                    <Text italic style={{ color: tokens.colorNeutralForeground2, fontWeight: '600', textShadow: '0 1px 4px rgba(255,255,255,0.9), 0 -1px 4px rgba(255,255,255,0.9)' }}>
                         {t('andOthers', { count: resultData.totalGroups - 3 })}
                     </Text>
                 </div>

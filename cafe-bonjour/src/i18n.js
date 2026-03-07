@@ -19,10 +19,11 @@ const resources = {
             "convoTitleLabel": "Titre de la conversation privée",
             "convoTitlePlaceholder": " café-bonjour",
             "msgLabel": "Message personnalisé pour les participants",
-            "msgHint": "Personnalisez l'accueil. Utilisez <1>{groupe}</1> pour insérer la liste des collaborateurs conviés.",
+            "msgHint": "Personnalisez l'accueil. Utilisez <1>{groupe}</1> pour insérer la liste des collaborateurs conviés et <3>{conversation}</3> pour son titre.",
             "previewTitle": "Aperçu du message :",
             "noteDisclaimer": "Note : Une fois les permissions accordées, les binômes seront générés automatiquement chaque semaine avec ces paramètres.",
             "btnSave": "Enregistrer la planification & Générer un aperçu !",
+            "generatingPreview": "Génération de l'aperçu en cours...",
             "alertError": "Erreur lors de la génération. Avez-vous le compte administrateur et les droits approuvés ?",
             "alertFake": "Aperçu affiché. Note : La génération réelle a échoué car le compte Administrateur n'a pas encore concédé les droits de l'application.",
             "previewHeader": "Aperçu de la prochaine planification ({{count}} conversations privées)",
@@ -32,8 +33,14 @@ const resources = {
             "fakeModeTitle": "⚠️ Mode Aperçu Fictif Uniquement",
             "fakeModeDesc": "Ceci n'est qu'un aperçu visuel avec des employés fictifs (\"Employé A\"). Pour que l'application puisse lire l'annuaire de votre entreprise et créer les groupes avec les vrais collaborateurs, un administrateur M365 de votre entreprise doit d'abord accorder les droits via le bouton jaune en haut de la page.",
             "loadingMsg": "Message en cours de chargement...",
-            "defaultMessage": "Bonjour {groupe} 👋\nProfitez de cette conversation privée pour planifier votre café !",
-            "today": "Aujourd'hui"
+            "defaultMessage": "Bonjour {groupe} 👋\nProfitez de cette conversation pour planifier un moment sympa autour d'un café dans la semaine !",
+            "today": "Aujourd'hui",
+            "dayLabel": "Jour de la semaine",
+            "monday": "Lundi",
+            "tuesday": "Mardi",
+            "wednesday": "Mercredi",
+            "thursday": "Jeudi",
+            "friday": "Vendredi"
         }
     },
     en: {
@@ -53,10 +60,11 @@ const resources = {
             "convoTitleLabel": "Private conversation title",
             "convoTitlePlaceholder": " coffee-bonjour",
             "msgLabel": "Custom message for participants",
-            "msgHint": "Customize the greeting. Use <1>{groupe}</1> to insert the list of invited collaborators.",
+            "msgHint": "Customize the greeting. Use <1>{groupe}</1> to insert the list of invited collaborators and <3>{conversation}</3> for its title.",
             "previewTitle": "Message preview:",
             "noteDisclaimer": "Note: Once permissions are granted, pairs will be generated automatically every week with these settings.",
             "btnSave": "Save Schedule & Generate Preview!",
+            "generatingPreview": "Generating preview...",
             "alertError": "Error during generation. Do you have the administrator account and approved rights?",
             "alertFake": "Preview displayed. Note: Actual generation failed because the Administrator account hasn't granted application rights yet.",
             "previewHeader": "Preview of the next schedule ({{count}} private conversations)",
@@ -66,8 +74,14 @@ const resources = {
             "fakeModeTitle": "⚠️ Fake Preview Mode Only",
             "fakeModeDesc": "This is just a visual preview with fictitious employees (\"Employee A\"). For the application to read your company directory and create groups with real collaborators, an M365 administrator from your company must first grant rights via the yellow button at the top of the page.",
             "loadingMsg": "Message is loading...",
-            "defaultMessage": "Hello {groupe} 👋\nTake advantage of this private conversation to plan your coffee!",
-            "today": "Today"
+            "defaultMessage": "Hello {groupe} 👋\nTake advantage of this conversation to plan a nice moment around a coffee during the week!",
+            "today": "Today",
+            "dayLabel": "Day of the week",
+            "monday": "Monday",
+            "tuesday": "Tuesday",
+            "wednesday": "Wednesday",
+            "thursday": "Thursday",
+            "friday": "Friday"
         }
     },
     es: {
@@ -87,10 +101,11 @@ const resources = {
             "convoTitleLabel": "Título de la conversación privada",
             "convoTitlePlaceholder": " café-bonjour",
             "msgLabel": "Mensaje personalizado para los participantes",
-            "msgHint": "Personalice el saludo. Utilice <1>{groupe}</1> para insertar la lista de colaboradores invitados.",
+            "msgHint": "Personalice el saludo. Utilice <1>{groupe}</1> para insertar la lista de colaboradores invitados y <3>{conversation}</3> para su título.",
             "previewTitle": "Vista previa del mensaje:",
             "noteDisclaimer": "Nota: Una vez otorgados los permisos, las parejas se generarán automáticamente cada semana con estos ajustes.",
             "btnSave": "¡Guardar horario y generar vista previa!",
+            "generatingPreview": "Generando vista previa...",
             "alertError": "Error durante la generación. ¿Tiene la cuenta de administrador y los derechos aprobados?",
             "alertFake": "Vista previa mostrada. Nota: La generación real falló porque la cuenta de Administrador aún no ha concedido los derechos de la aplicación.",
             "previewHeader": "Vista previa de la próxima planificación ({{count}} conversaciones privadas)",
@@ -100,8 +115,14 @@ const resources = {
             "fakeModeTitle": "⚠️ Solo Modo de Vista Previa Ficticia",
             "fakeModeDesc": "Esto es solo una vista previa visual con empleados ficticios (\"Empleado A\"). Para que la aplicación lea el directorio de su empresa y cree grupos con colaboradores reales, un administrador de M365 de su empresa primero debe otorgar permisos a través del botón amarillo en la parte superior de la página.",
             "loadingMsg": "Mensaje cargando...",
-            "defaultMessage": "¡Hola {groupe}! 👋\n¡Aproveche esta conversación privada para planificar su café!",
-            "today": "Hoy"
+            "defaultMessage": "¡Hola {groupe}! 👋\n¡Aprovecha esta conversación para planificar un momento agradable tomando un café durante la semana!",
+            "today": "Hoy",
+            "dayLabel": "Día de la semana",
+            "monday": "Lunes",
+            "tuesday": "Martes",
+            "wednesday": "Miércoles",
+            "thursday": "Jueves",
+            "friday": "Viernes"
         }
     }
 };

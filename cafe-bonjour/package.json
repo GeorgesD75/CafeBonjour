@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@fluentui/react-components": "^9.67.0",
+    "@microsoft/teams-js": "^2.49.0",
     "i18next": "^25.8.14",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -51,7 +51,7 @@ export async function getSettings(tenantId) {
         selectedDay: 'monday',
         time: '09:00',
         channelName: ' café-bonjour',
-        message: 'Bonjour {groupe} 👋\nBienvenue à votre café du jour dans #{canal}'
+        message: "Bonjour {groupe} 👋\nProfitez de cette conversation pour planifier un moment sympa autour d'un café dans la semaine !"
     };
 
     try {
